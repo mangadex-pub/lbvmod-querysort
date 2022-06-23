@@ -1,0 +1,26 @@
+varnishtest "Test querysort.querysort sort stability"
+
+server s1 -repeat 6 {
+	rxreq
+	txresp
+} -start
+
+varnish v1 -vcl+backend {
+	import querysort;
+
+	sub vcl_deliver {
+		set resp.http.url = querysort.querysort(req.http.url);
+	}
+} -start
+
+client c1 {
+	txreq -hdr "url: /w/api.php?action=parse&page=Varnish&prop=wikitext&prop=parsetree&format=json"
+	rxresp
+	expect resp.http.url == "/w/api.php?action=parse&format=json&page=Varnish&prop=wikitext&prop=parsetree"
+
+	delay .1
+
+	txreq -hdr "url: /search-redirect.php?family=Wikipedia&language=en&search=Varnish&language=de&go=Go"
+	rxresp
+	expect resp.http.url == "/search-redirect.php?family=Wikipedia&go=Go&language=en&language=de&search=Varnish"
+} -run

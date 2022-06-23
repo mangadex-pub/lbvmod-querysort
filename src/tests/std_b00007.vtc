@@ -1,0 +1,60 @@
+# Adapted from: https://raw.githubusercontent.com/varnishcache/varnish-cache/master/vmod/tests/std_b00007.vtc
+varnishtest "Test querysort.querysort"
+
+server s1 -repeat 6 {
+	rxreq
+	txresp
+} -start
+
+varnish v1 -vcl+backend {
+	import std;
+        import querysort;
+
+	sub vcl_deliver {
+		set resp.http.url = querysort.querysort(req.http.url);
+	}
+} -start
+
+client c1 {
+	txreq -hdr "url: /foo/bar?t=0&b=0&p=0&c=5"
+	rxresp
+	expect resp.http.url == "/foo/bar?b=0&c=5&p=0&t=0"
+
+	delay .1
+
+	txreq -hdr "url: /foo/bar?coa=0&co=0"
+	rxresp
+	expect resp.http.url == "/foo/bar?co=0&coa=0"
+
+	delay .1
+
+	txreq -hdr "url: /foo/bar?a=0&&&&&"
+	rxresp
+	expect resp.http.url == "/foo/bar?a=0"
+
+	txreq -hdr "url: /foo/bar?&a=0&&&&&z&w&x&"
+	rxresp
+	expect resp.http.url == "/foo/bar?a=0&w&x&z"
+
+	delay .1
+
+	txreq -hdr "url: /foo/bar?&"
+	rxresp
+	expect resp.http.url == "/foo/bar?"
+
+	delay .1
+
+	txreq -hdr "url: /foo/bar?t=0"
+	rxresp
+	expect resp.http.url == "/foo/bar?t=0"
+
+	delay .1
+
+	txreq -hdr "url: /foo/bar"
+	rxresp
+	expect resp.http.url == "/foo/bar"
+
+	txreq
+	rxresp
+	expect resp.http.url == ""
+} -run

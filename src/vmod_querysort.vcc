@@ -1,0 +1,2 @@
+$Module querysort 3 "Varnish Query Sort Module"
+$Function STRING querysort(STRING)

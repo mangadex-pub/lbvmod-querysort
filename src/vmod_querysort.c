@@ -52,13 +52,13 @@ compa(const void *a, const void *b)
 	const char *a1, *b1;
 
 	for (a1 = pa[0], b1 = pb[0]; a1 < pa[1] && b1 < pb[1]; a1++, b1++) {
-		if (*a1 == '=') {
-			if (*b1 == '=') {
+		if (*a1 == '=' || *a1 == '[') {
+			if (*b1 == '=' || *b1 == '[') {
 				break;
 			} else {
 				return -1;
 			}
-		} else if (*b1 == '=') {
+		} else if (*b1 == '=' || *b1 == '[') {
 			return 1;
 		} else if (*a1 != *b1) {
 			return (*a1 - *b1);

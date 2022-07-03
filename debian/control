@@ -1,0 +1,14 @@
+Source: libvmod-querysort
+Section: web
+Priority: optional
+Maintainer: Ori Livneh <ori.livneh@gmail.com>
+Build-Depends: debhelper-compat (= 10), libvarnishapi-dev, pkg-config, python3-docutils
+Standards-Version: 4.5.1
+Homepage: https://gerrit.wikimedia.org/g/operations/software/varnish/libvmod-querysort
+
+Package: libvmod-querysort
+Architecture: any
+Pre-Depends: ${misc:Pre-Depends}
+Depends: varnish (>= 6.0.0), ${shlibs:Depends}, ${misc:Depends}
+Description: Varnish VMOD for sorting query parameters
+ Sorts query strings by query parameter key.

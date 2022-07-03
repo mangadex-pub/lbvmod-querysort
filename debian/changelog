@@ -1,0 +1,5 @@
+libvmod-querysort (0.1) buster-wikimedia; urgency=low
+
+  * Initial release.
+
+ -- Ori Livneh <ori.livneh@gmail.com>  Sun, 03 Jul 2022 19:32:35 +0000

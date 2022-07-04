@@ -44,6 +44,21 @@
 	} while (0)
 
 
+/*
+ * Is this the end of a query parameter key? End is either '=' or '['. The
+ * latter may be percent-encoded as %5B.
+ */
+static inline int
+is_key_stop(const char *p, const char *end)
+{
+	if (p[0] == '=' || p[0] == '[') {
+		return (1);
+	} else if (p[0] == '%' && (end - p) >= 3 && p[1] == '5' && (p[2] == 'B' || p[2] == 'b')) {
+		return (1);
+	}
+	return (0);
+}
+
 static int
 compa(const void *a, const void *b)
 {
@@ -52,13 +67,13 @@ compa(const void *a, const void *b)
 	const char *a1, *b1;
 
 	for (a1 = pa[0], b1 = pb[0]; a1 < pa[1] && b1 < pb[1]; a1++, b1++) {
-		if (*a1 == '=' || *a1 == '[') {
-			if (*b1 == '=' || *b1 == '[') {
+		if (is_key_stop(a1, pa[1])) {
+			if (is_key_stop(b1, pb[1])) {
 				break;
 			} else {
 				return -1;
 			}
-		} else if (*b1 == '=' || *b1 == '[') {
+		} else if (is_key_stop(b1, pb[1])) {
 			return 1;
 		} else if (*a1 != *b1) {
 			return (*a1 - *b1);

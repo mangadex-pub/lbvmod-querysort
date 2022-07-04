@@ -35,4 +35,16 @@ client c1 {
 	txreq -hdr "url: /w/index.php?title=Varnish&action=edit&preloadparams[]=c&preloadparams[0]=b&preloadparams[]=a"
 	rxresp
 	expect resp.http.url == "/w/index.php?action=edit&preloadparams[]=c&preloadparams[0]=b&preloadparams[]=a&title=Varnish"
+
+	delay .1
+
+	txreq -hdr "url: /w/index.php?title=Varnish&action=edit&preloadparams%5B%5D=c&preloadparams[0]=b&preloadparams[]=a"
+	rxresp
+	expect resp.http.url == "/w/index.php?action=edit&preloadparams%5B%5D=c&preloadparams[0]=b&preloadparams[]=a&title=Varnish"
+
+	delay .1
+
+	txreq -hdr "url: /blah?foo[]=a&foo%5B%5D=b&fooa=q&foo=c&foo%5b%5d=d"
+	rxresp
+	expect resp.http.url == "/blah?foo[]=a&foo%5B%5D=b&foo=c&foo%5b%5d=d&fooa=q"
 } -run

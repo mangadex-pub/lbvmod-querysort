@@ -1,3 +1,9 @@
+libvmod-querysort (0.2) buster-wikimedia; urgency=low
+
+  * Support percent-encoded array key syntax (c34111c79).
+
+ -- Ori Livneh <ori.livneh@gmail.com>  Fri, 08 Jul 2022 17:59:27 +0000
+
 libvmod-querysort (0.1) buster-wikimedia; urgency=low
 
   * Initial release.

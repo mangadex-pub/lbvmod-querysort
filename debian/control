@@ -2,7 +2,8 @@ Source: libvmod-querysort
 Section: web
 Priority: optional
 Maintainer: Ori Livneh <ori.livneh@gmail.com>
-Build-Depends: debhelper-compat (= 10), libvarnishapi-dev, pkg-config, python3-docutils
+Uploaders: Sukhbir Singh <ssingh@wikimedia.org>
+Build-Depends: debhelper-compat (= 13), libvarnishapi-dev, pkg-config, python3-docutils
 Standards-Version: 4.5.1
 Homepage: https://gerrit.wikimedia.org/g/operations/software/varnish/libvmod-querysort
 

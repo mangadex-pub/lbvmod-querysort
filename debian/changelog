@@ -1,3 +1,9 @@
+libvmod-querysort (0.4) bullseye-wikimedia; urgency=medium
+
+  * Rebuild package against varnish 6.0.11 (Bug: T326634)
+
+ -- Sukhbir Singh <ssingh@wikimedia.org>  Tue, 24 Jan 2023 14:35:47 -0500
+
 libvmod-querysort (0.3) bullseye-wikimedia; urgency=medium
 
   * Bump version and target distribution to bullseye (Bug: T321309)
